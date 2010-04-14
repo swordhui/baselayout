@@ -1,0 +1,6 @@
+base layout for Xiange Linux sytem.
+
+Installation:
+	make prefix=path install
+
+	
