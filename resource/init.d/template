@@ -1,0 +1,48 @@
+#!/bin/sh
+########################################################################
+# Begin $rc_base/init.d/
+#
+# Description :
+#
+# Authors :
+#
+# Version : 00.00
+#
+# Notes :
+#
+########################################################################
+
+. /etc/sysconfig/rc
+. ${rc_functions}
+
+prog_daemon=
+
+case "${1}" in
+start)
+	boot_mesg "Starting ${prog_daemon} ..."
+	loadproc $prog_daemon
+	;;
+stop)
+	boot_mesg "Stopping ${prog_daemon} ..."
+	killproc $prog_daemon
+	;;
+reload)
+	boot_mesg "Reloading ${prog_daemon} ..."
+	reloadproc $prog_daemon
+	;;
+restart)
+	${0} stop
+	sleep 1
+	${0} start
+	;;
+status)
+	statusproc $prog_daemon
+	;;
+*)
+	echo "Usage: ${0} {start|stop|reload|restart|status}"
+	exit 1
+	;;
+esac
+
+# End $rc_base/init.d/
+

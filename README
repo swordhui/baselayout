@@ -3,4 +3,14 @@ base layout for Xiange Linux sytem.
 Installation:
 	make prefix=path install
 
+History
+	0.1.0
+		root direcoty OK.
+
+	0.2.0
+		RC system OK.
+		Bash parameters OK.
+		System boot OK.
+		
+
 	

@@ -1,0 +1,52 @@
+#!/bin/sh
+########################################################################
+# Begin $rc_base/init.d/
+#
+# Description : syslogd loader
+#
+# Authors :
+#
+# Version : 00.00
+#
+# Notes :
+#
+########################################################################
+
+. /etc/sysconfig/rc
+. ${rc_functions}
+
+case "${1}" in
+start)
+	boot_mesg "Starting syslogd..."
+	loadproc /sbin/syslogd -m 0
+	
+	boot_mesg "Starting klogd..."
+	loadproc /sbin/klogd 
+	;;
+stop)
+	boot_mesg "Stopping klogd..."
+	killproc /sbin/klogd
+	boot_mesg "Stopping syslogd..."
+	killproc /sbin/syslogd
+	;;
+reload)
+	boot_mesg "reloading syslogd..."
+	reloadproc /sbin/syslogd
+	;;
+restart)
+	${0} stop
+	sleep 1
+	${0} start
+	;;
+status)
+	statusproc /sbin/syslogd
+	statusproc /sbin/klogd
+	;;
+*)
+	echo "Usage: ${0} {start|stop|reload|restart|status}"
+	exit 1
+	;;
+esac
+
+# End $rc_base/init.d/
+

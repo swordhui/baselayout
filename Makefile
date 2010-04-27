@@ -19,14 +19,46 @@ install:
 	@mkdir -p ${prefix}/var/{opt,cache,lib/{misc,locate},local}
 
 	# password/group
-	@cp passwd ${prefix}/etc
-	@chmod 0644 ${prefix}/etc/passwd
+	@install -m 0644 -o 0 -g 0 -p resource/boot/* \
+		${prefix}/boot
 
-	@cp group ${prefix}/etc
-	@chmod 0644 ${prefix}/etc/group
+	#etc
+	@install -m 0644 -o 0 -g 0 -p resource/etc/* ${prefix}/etc
 
+	#init.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/init.d
+	@install -m 0655 -o 0 -g 0 -p resource/init.d/* \
+		${prefix}/etc/rc.d/init.d
+	chmod 0644 ${prefix}/etc/rc.d/init.d/functions
 
+	#rc0.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/rc0.d
+	@cp -a resource/rc0.d/* ${prefix}/etc/rc.d/rc0.d
+
+	#rc1.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/rc1.d
+	@cp -a resource/rc1.d/* ${prefix}/etc/rc.d/rc1.d
+
+	#rc3.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/rc3.d
+	@cp -a resource/rc3.d/* ${prefix}/etc/rc.d/rc3.d
 	@echo "Done"
+
+	#rc6.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/rc6.d
+	@cp -a resource/rc6.d/* ${prefix}/etc/rc.d/rc6.d
+
+	#rcsysinit.d
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/rc.d/rcsysinit.d
+	@cp -a resource/rcsysinit.d/* ${prefix}/etc/rc.d/rcsysinit.d
+
+	#sysconfig
+	@install -d -m 0655 -o 0 -g 0 ${prefix}/etc/sysconfig
+	@install -m 0644 -o 0 -g 0 -p resource/sysconfig/* \
+		${prefix}/etc/sysconfig
+
+
 
 test:
 	@mkdir ./test

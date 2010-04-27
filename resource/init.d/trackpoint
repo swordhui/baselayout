@@ -1,0 +1,50 @@
+#!/bin/sh
+########################################################################
+# Begin $rc_base/init.d/
+#
+# Description :
+#
+# Authors :
+#
+# Version : 00.00
+#
+# Notes :
+#
+########################################################################
+
+. /etc/sysconfig/rc
+. ${rc_functions}
+
+prog_daemon=
+
+case "${1}" in
+start)
+	boot_mesg "Setting IBM trackpoint..."
+	echo -n 120 > /sys/devices/platform/i8042/serio1/speed
+	echo -n 250 > /sys/devices/platform/i8042/serio1/sensitivity
+	;;
+stop)
+	;;
+reload)
+	boot_mesg "Resetting IBM trackpoint ..."
+	echo -n 120 > /sys/devices/platform/i8042/serio1/speed
+	echo -n 250 > /sys/devices/platform/i8042/serio1/sensitivity
+	;;
+restart)
+	${0} stop
+	sleep 1
+	${0} start
+	;;
+status)
+	echo "speed and sensitivity:"
+	cat  /sys/devices/platform/i8042/serio1/speed
+	cat  /sys/devices/platform/i8042/serio1/sensitivity
+	;;
+*)
+	echo "Usage: ${0} {start|stop|reload|restart|status}"
+	exit 1
+	;;
+esac
+
+# End $rc_base/init.d/
+

@@ -1,0 +1,61 @@
+#!/bin/sh
+########################################################################
+# Begin $rc_base/init.d/
+#
+# Description : eth0 configuration
+#
+# Authors : Sword	
+#
+# Version : 00.00
+#
+# Notes :
+#
+########################################################################
+
+. /etc/sysconfig/rc
+. ${rc_functions}
+
+prog_daemon=/usr/bin/wpa_supplicant
+prog_dhcp=/sbin/dhcpcd
+
+case "${1}" in
+start)
+	boot_mesg "bring up wireless eth1.." 
+	#loadproc $prog_daemon -ieth1 -c/etc/wpa_supplicant.conf -B
+	iwconfig eth1 essid "SwordLink"
+	evaluate_retval
+	
+	boot_mesg "get address via dhcp.." 
+	loadproc $prog_dhcp eth1
+	evaluate_retval
+	;;
+stop)
+	boot_mesg "bring down eth1..."
+	ip link set eth1 down > /dev/null 
+	ip addr delete dev eth1 $IPADDR > /dev/null
+	evaluate_retval
+
+	boot_mesg "Stopping dhcpcd..."
+	killproc $prog_dhcp
+	
+	#boot_mesg "Stopping wpa_supplicant..."
+	#killproc $prog_daemon
+
+	;;
+restart)
+	${0} stop
+	sleep 1
+	${0} start
+	;;
+status)
+	statusproc $prog_daemon
+	statusproc $prog_dhcp
+	;;
+*)
+	echo "Usage: ${0} {start|stop|restart|status}"
+	exit 1
+	;;
+esac
+
+# End $rc_base/init.d/
+

@@ -1,0 +1,21 @@
+# Begin /etc/fstab
+
+#file system 	mount-point 	type 	options		dump 	fsck  
+/dev/sdb8 	/ 		ext4	defaults 	1 	1
+/dev/sdb2 	swap 		swap 	pri=1 		0 	0
+#/dev/sdb6 	/mnt/bak 	vfat 	users,iocharset=cp936,umask=0003,uid=sword
+#/dev/sdb1 	/mnt/win7 	ntfs-3g	noauto,users,locale=zh_CN.GB2312,noatime
+#/dev/sda1 	/mnt/winxp 	ntfs 	noauto,users,iocharset=cp936,umask=0000
+
+#sysfs
+proc 		/proc 		proc 	defaults 	0 	0
+sysfs 		/sys 		sysfs 	defaults 	0 	0
+devpts 		/dev/pts 	devpts 	gid=4,mode=620 	0 	0
+tmpfs 		/dev/shm 	tmpfs 	defaults,size=10G 	0 	0
+
+#removeable devices
+UUID="670D-5153" /mnt/usb	vfat	noauto,users,iocharset=cp936,umask=0033,uid=sword
+UUID="CDF2-6BE2" /mnt/nokia	vfat	noauto,users,iocharset=cp936,umask=0033,uid=sword
+UUID="9C5E-3EDC" /mnt/video	vfat	noauto,users,iocharset=cp936,umask=0033,uid=sword
+
+# End /etc/fstab

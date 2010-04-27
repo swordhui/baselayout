@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ ${UID} == 0 ]; then
+	PS1='\[\033[01;31m\]\h\[\033[01;36m\] \W #\[\033[00m\]'
+else
+	PS1='\[\033[01;32m\]\u@\h\[\033[01;36m\] \w \$\[\033[00m\]'		
+fi
+
+#use chinese if in xterm.
+#if [ ${TERM} == "xterm" ]; then
+#	export LANG=zh_CN.GB2312
+#fi
+
+export PS1
+
+alias ls="ls --color"
+alias grep="grep --colour=auto"
+alias su="su -l"
+alias less="less -r"
+
+#dir color.
+. /etc/DIRCOLORS
+
+#set path
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R7/bin:/opt/bin:/usr/games/bin
+
+#end script
+
+
+
+
+

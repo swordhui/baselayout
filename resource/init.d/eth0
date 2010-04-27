@@ -1,0 +1,64 @@
+#!/bin/sh
+########################################################################
+# Begin $rc_base/init.d/
+#
+# Description : eth0 configuration
+#
+# Authors : Sword	
+#
+# Version : 00.00
+#
+# Notes :
+#
+########################################################################
+
+. /etc/sysconfig/rc
+. ${rc_functions}
+
+IPADDR=192.168.1.1/24
+ROUTADDR=192.168.1.1
+
+case "${1}" in
+start)
+	boot_mesg "bring up  eth0 to $IPADDR.." 
+	ip addr add dev eth0 $IPADDR > /dev/null 
+	if [ ${?} != 0 ]; then
+		echo_failure
+		boot_mesg -n "ip addr failed." ${FAILURE}
+		exit 1
+	fi
+	
+	#link up.
+	ip link set eth0 up > /dev/null 
+	if [ ${?} != 0 ]; then
+		echo_failure
+		boot_mesg -n "ip link failed." ${FAILURE}
+		exit 1
+	fi
+
+	#set route.
+	#ip route add default dev eth0 via $ROUTADDR > /dev/null 
+	#evaluate_retval
+	;;
+stop)
+	boot_mesg "bring down eth0..."
+	ip link set eth0 down > /dev/null 
+	ip addr delete dev eth0 $IPADDR > /dev/null
+	evaluate_retval
+	;;
+restart)
+	${0} stop
+	sleep 1
+	${0} start
+	;;
+status)
+	statusproc
+	;;
+*)
+	echo "Usage: ${0} {start|stop|restart|status}"
+	exit 1
+	;;
+esac
+
+# End $rc_base/init.d/
+
