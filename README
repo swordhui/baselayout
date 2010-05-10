@@ -11,6 +11,9 @@ History
 		RC system OK.
 		Bash parameters OK.
 		System boot OK.
+
+	0.2.1
+		add /etc/hosts file.
 		
 
 	
